@@ -129,6 +129,8 @@ public class ImGuiRenderer {
             }
             ImGui.end();
         }
+
+        ImGuiNotify.renderNotifications();
     }
 
 
