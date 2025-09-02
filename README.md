@@ -1,62 +1,43 @@
-# LR2oraja \~Endless Dream\~
+# LR2oraja \~Endless Dream\~ ArenaEx
 
-Endless Dream is a community fork and drop-in replacement for [beatoraja](https://github.com/exch-bms2/beatoraja) that integrates quality of life patches and new features not present in the upstream version of the game.
+This is an unauthorized, hand-crafted [LR2ArenaEx](https://github.com/SayakaIsBaka/LR2ArenaEx) port. And based on Endless Dream's dev branch(`0.3.0`).
 
-Based on [LR2oraja](https://github.com/wcko87/lr2oraja), which is itself a fork with LR2 judges and gauges, Endless Dream aims to fix some of the outstanding issues with the upstream project while being a central place for modifications and extensions that may never be accepted by upstream.
+In short, this branch brings the functionality:
 
-### Key Features
-* Increased perfomance by using the latest graphics backends available to libgdx
-* Faster BMS folder processing than stock (up to 20x)
-* Faster Table Processing
-* Compatible with beatoraja 0.8.8 installs
-* Built in Mod Menu, accessible using **`F5` or `Insert`**
+- As a client join other LR2ArenaEx's server session
+- Can play with LR2 users
 
-### Downloads
-Development builds are created for every commit and published as [releases](https://github.com/seraxis/lr2oraja-endlessdream/releases)
-- [**Windows Download**](https://github.com/seraxis/lr2oraja-endlessdream/releases/download/v0.2.1/lr2oraja-0.8.8-endlessdream-windows-0.3.0.zip)
-- [**Linux Download**](https://github.com/seraxis/lr2oraja-endlessdream/releases/download/v0.2.1/lr2oraja-0.8.8-endlessdream-linux-0.3.0.zip)
+To build this branch, follow the instruction from main branch's README file but upgrade the jdk version to 17 at least.
 
-### Installing from scratch
-If you don't have an existing beatoraja installation download the latest [`beatoraja-0.8.8 JRE`](https://mocha-repository.info/download/beatoraja0.8.7-jre-win64.zip) bundled version, or choose a version yourself from the [release page](https://mocha-repository.info/download.php).
+## Development
 
-## Building from source
-A JDK 8 **with javafx** is required to build and run. Consider using [liberica JDK](https://bell-sw.com/pages/downloads/#jdk-17-lts)
-Clone this repository with submodules
-```sh
-git clone --recurse-submodules git@github.com:seraxis/lr2oraja-endlessdream.git
-```
-Run the gradle wrapper for your operating system and specify your desired platform as a [gradle system property](https://docs.gradle.org/current/userguide/build_environment.html#sec:gradle_system_properties)
+Need some time to polish this project...
 
-**Windows:**
-```powershell
-.\gradlew.bat core:shadowJar -Dplatform=windows
-```
-**Linux:**
-```sh
-./gradlew core:shadowJar -Dplatform=linux
-```
-**MacOS:**
-```sh
-./gradlew core:shadowJar -Dplatform=macos
-```
+- [ ] Porting whole server side
+- [ ] Play scene
+    - [ ] Auto select the host's song
+    - [ ] A/AA/AAA limits are miscalculated
+    - [ ] The height of graph menu should be adjusted. I don't know why there's a horizontal bar
+    - [ ] Kick users/Give host to other users are not implemented yet
+    - [ ] Hijack the IR display to render lobby result instead
+- [ ] Settings
+    - [ ] Items are not implemented
+    - [ ] Random seed is not implemented
+    - [ ] Option & Gauge are not implemented
 
-> [!NOTE]
-> For `arm` user: add -Darch=aarch64
+## Other things you might want ask
 
-This task will create a jar located in `dist/` that can be used with any working installation of the game.
-### Testing changes
-Use of an IDE, such as [Intellij](https://www.jetbrains.com/idea/download/other.html), is recommended for working on Endless Dream.
+Q: How do I pick a song/get ready?
+A: Just launch the bms as usual. If you are the lobby's host, then the song would be picked for the lobby. For other users, selecting the same song with host and you are ready.
 
-The gradle `core:runShadow` task can be used to quickly test and debug changes made to the project.
+Q: What's the current progress?
+A: Only the basic functionality of client side has been implemented. Server side 0%.
 
-Configure the `runDir` system property to point to a beatoraja install or leave blank to have it run in the assets folder
+Q: Does this branch has any relationship with lr2oraja arena or something similar?
+A: No. This branch is only a code port result from LR2ArenaEx.
 
-**Windows:**
-```powershell
-.\gradlew.bat core:runShadow -Dplatform=windows -DrunDir="C:\beatoraja0.8.7"
-```
+Q: Why this code is a branch not a standalone repo?
+A: To hard to think of a name for the repo...I don't want something like lr2oraja-endlessdream-arenaex
 
-## Contributing
-Please state the impact your changes will have on drop-in compatibility with an upstream beatoraja install.
-
-TBD
+Q: Does this branch allows IR connections?
+A: Technically yes but this branch is based on dev branch of Endless Dream. So I think I'll disallow the connection in the near future.
