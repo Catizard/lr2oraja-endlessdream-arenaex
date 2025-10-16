@@ -408,16 +408,22 @@ public class BMSPlayer extends MainState {
 			if(playinfo.randomoptionseed != -1) {
 				pm.setSeed(playinfo.randomoptionseed);
 			} else {
-                if (ghostBattle.isPresent()) {
+				if (Client.connected.get() && !Client.state.getHost().equals(Client.state.getRemoteId())) {
+					if (RandomTrainer.isActive()) {
+						Logger.getGlobal().info("RandomTrainer: Disabled during arena session");
+					}
+					pm.setSeed(Client.state.getRandomSeed());
+				} else if (ghostBattle.isPresent()) {
 					HashMap<Integer, Long> seedmap = RandomTrainer.getRandomSeedMap();
-                    Integer pattern = ghostBattle.get().lanes();
+					Integer pattern = ghostBattle.get().lanes();
 					Logger.getGlobal().info("Ghost battle - fixing lane pattern to " + pattern);
 					pm.setSeed(seedmap.get(pattern));
-                }
-                else if (RandomTrainer.isActive() && model.getMode() == Mode.BEAT_7K && RandomTrainer.getRandomSeedMap() != null) {
-					HashMap<Integer, Long> seedmap = RandomTrainer.getRandomSeedMap();
-					Logger.getGlobal().info("RandomTrainer: Enabled, modifying random seed");
-					pm.setSeed(seedmap.get(Integer.parseInt(RandomTrainer.getLaneOrder())));
+				} else {
+					if (RandomTrainer.isActive() && model.getMode() == Mode.BEAT_7K && RandomTrainer.getRandomSeedMap() != null) {
+						HashMap<Integer, Long> seedmap = RandomTrainer.getRandomSeedMap();
+						Logger.getGlobal().info("RandomTrainer: Enabled, modifying random seed");
+						pm.setSeed(seedmap.get(Integer.parseInt(RandomTrainer.getLaneOrder())));
+					}
 				}
 				playinfo.randomoptionseed = pm.getSeed();
 			}
