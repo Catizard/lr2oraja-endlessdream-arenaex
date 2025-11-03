@@ -1133,7 +1133,6 @@ public class BMSPlayer extends MainState {
 			return;
 		}
 		if (state == STATE_WAIT) {
-			// Is there a risk that we send the cancel event before sending the loading complete one? idk
 			Client.send(ClientToServer.CTS_CHART_CANCELLED, "".getBytes());
 			main.getAudioProcessor().setGlobalPitch(1f);
 			timer.setTimerOn(TIMER_FADEOUT);
