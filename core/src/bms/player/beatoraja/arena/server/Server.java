@@ -235,7 +235,7 @@ public class Server extends WebSocketServer {
      */
     private Optional<WebSocket> findConnection(Address address) {
         return this.getConnections().stream()
-                .filter(conn -> address.equals(conn.getRemoteSocketAddress()))
+                .filter(conn -> address.equals(new Address(conn.getRemoteSocketAddress())))
                 .findAny();
     }
 
