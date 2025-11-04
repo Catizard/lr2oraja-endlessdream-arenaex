@@ -5,6 +5,7 @@ import bms.player.beatoraja.arena.client.Client;
 import bms.player.beatoraja.arena.enums.ClientToServer;
 import bms.player.beatoraja.arena.network.Address;
 import bms.player.beatoraja.modmenu.ArenaMenu;
+import bms.player.beatoraja.modmenu.FontAwesomeIcons;
 import bms.player.beatoraja.modmenu.ImGuiNotify;
 import imgui.ImGui;
 import imgui.ImVec4;
@@ -35,10 +36,10 @@ public class Lobby {
         Client.state.getPeers().forEach((address, peer) -> {
             String userName = peer.getUserName();
             if (address.equals(Client.state.getHost())) {
-                userName = "L " + userName;
+                userName = FontAwesomeIcons.Crown + userName;
             }
             if (peer.isReady() && Objects.equals(Client.state.getPeers().get(Client.state.getHost()).getSelectedMD5(), peer.getSelectedMD5())) {
-                userName = "R " + userName;
+                userName = FontAwesomeIcons.CheckCircle + userName;
             }
             ImGui.selectable(userName);
             if (Client.state.getHost().equals(Client.state.getRemoteId()) && ImGui.beginPopupContextItem()) {
@@ -56,13 +57,13 @@ public class Lobby {
         ImGui.sameLine();
         ImGui.beginGroup();
         ImGui.beginChild("Main view", mainWindowWidth, mainWindowHeight);
-        if (ImGui.button("@")) {
+        if (ImGui.button(FontAwesomeIcons.Link)) {
             ImGui.setClipboardText("http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&bmsmd5=" + Client.state.getSelectedSongRemote().getMd5());
             ImGuiNotify.info("Copied LR2IR link to clipboard!");
             // TODO: gui::widgets::Tooltip("Copy LR2IR link to clipboard");
         }
 
-        float buttonWidth = ImGui.calcTextSize("@").x + ImGui.getStyle().getFramePaddingX() * 2;
+        float buttonWidth = ImGui.calcTextSize(FontAwesomeIcons.Link).x + ImGui.getStyle().getFramePaddingX() * 2;
         float fontSize = ImGui.getFontSize();
         float gapSize = fontSize / 2.0F;
 
@@ -79,10 +80,10 @@ public class Lobby {
         ImGui.inputText("Artist", new ImString(Client.state.getSelectedSongRemote().getArtist()), ImGuiInputTextFlags.ReadOnly);
         // NOTE: When trying to jump to the arena bar automatically, current scene should be musicselector
         // otherwise the jump won't work
-        if (ImGui.button("Jump")) {
+        if (ImGui.button(FontAwesomeIcons.ArrowRight)) {
             ArenaMenu.selectCurrentLobbySong();
         }
-        buttonWidth = ImGui.calcTextSizeX("Jump") + ImGui.getStyle().getFramePaddingX() * 2;
+        buttonWidth = ImGui.calcTextSizeX(FontAwesomeIcons.ArrowRight) + ImGui.getStyle().getFramePaddingX() * 2;
 
         ImGui.sameLine();
         ImGui.pushItemWidth(mainWindowWidth - (fontSize * 3) - buttonWidth - gapSize);
