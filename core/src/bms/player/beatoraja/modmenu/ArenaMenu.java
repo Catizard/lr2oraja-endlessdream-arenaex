@@ -4,7 +4,6 @@ import bms.player.beatoraja.arena.client.ArenaBar;
 import bms.player.beatoraja.arena.client.Client;
 import bms.player.beatoraja.arena.lobby.Lobby;
 import bms.player.beatoraja.arena.server.ArenaServer;
-import bms.player.beatoraja.arena.server.Server;
 import bms.player.beatoraja.select.MusicSelector;
 import bms.player.beatoraja.song.SongData;
 import imgui.ImGui;
@@ -17,6 +16,8 @@ public class ArenaMenu {
     public static boolean isFocused = false;
     public static boolean isShow = false;
     private static MusicSelector selector;
+    private static final ImBoolean serverStarted = new ImBoolean(false);
+    private static final ImBoolean serverAutoRotate = new ImBoolean(false);
 
     public static void setMusicSelector(MusicSelector selector) {
         ArenaMenu.selector = selector;
@@ -68,18 +69,30 @@ public class ArenaMenu {
                     ImGui.text("Server");
                     ImGui.separator();
 
-                    ImGui.beginDisabled(Server.started.get());
+                    ImGui.beginDisabled(serverStarted.get());
                     if (ImGui.button("Start")) {
-                        ArenaServer.start();
+                        try {
+                            ArenaServer.start();
+                            serverStarted.set(true);
+                        } catch (Exception e) {
+                            ImGuiNotify.error(String.format("Failed to start server: %s", e.getMessage()));
+                        }
                     }
                     ImGui.endDisabled();
 
-                    ImGui.beginDisabled(!Server.started.get());
+                    ImGui.beginDisabled(!serverStarted.get());
                     if (ImGui.button("Stop")) {
-                        ArenaServer.stop();
+                        try {
+                            ArenaServer.stop();
+                            serverStarted.set(false);
+                        } catch (Exception e) {
+                            ImGuiNotify.error(String.format("Failed to start server: %s", e.getMessage()));
+                        }
                     }
                     ImGui.endDisabled();
-                    ImGui.checkbox("Auto-rotate host after each song", Server.autoRotateHost);
+                    if (ImGui.checkbox("Auto-rotate host after each song", serverAutoRotate)) {
+                        serverAutoRotate.set(false);
+                    }
                     ImGui.endTabItem();
                 }
                 ImGui.endTabBar();
