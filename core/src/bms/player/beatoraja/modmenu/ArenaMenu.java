@@ -24,10 +24,6 @@ public class ArenaMenu {
     }
 
     public static void show(ImBoolean showArenaMenu) {
-        isShow = showArenaMenu.get();
-        if (!isShow) {
-            isFocused = false;
-        }
         // This tweak must be called in game's main thread, otherwise the game crashes immediately
         // because we cannot dispose a texture outside of glfw context
         if (Client.state.getAutoSelectFlag()) {

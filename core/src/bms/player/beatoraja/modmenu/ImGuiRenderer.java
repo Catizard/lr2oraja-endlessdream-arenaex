@@ -164,6 +164,8 @@ public class ImGuiRenderer {
             }
             if (SHOW_ARENA_MENU.get()) {
                 ArenaMenu.show(SHOW_ARENA_MENU);
+            } else {
+                ArenaMenu.isFocused = false;
             }
             if (SHOW_GRAPH_MENU.get()) {
                 GraphMenu.show(SHOW_GRAPH_MENU);
