@@ -16,8 +16,6 @@ public class ArenaMenu {
     public static boolean isFocused = false;
     public static boolean isShow = false;
     private static MusicSelector selector;
-    private static final ImBoolean serverStarted = new ImBoolean(false);
-    private static final ImBoolean serverAutoRotate = new ImBoolean(false);
 
     public static void setMusicSelector(MusicSelector selector) {
         ArenaMenu.selector = selector;
@@ -65,29 +63,27 @@ public class ArenaMenu {
                     ImGui.text("Server");
                     ImGui.separator();
 
-                    ImGui.beginDisabled(serverStarted.get());
+                    ImGui.beginDisabled(ArenaServer.serverStarted.get());
                     if (ImGui.button("Start")) {
                         try {
                             ArenaServer.start();
-                            serverStarted.set(true);
                         } catch (Exception e) {
                             ImGuiNotify.error(String.format("Failed to start server: %s", e.getMessage()));
                         }
                     }
                     ImGui.endDisabled();
 
-                    ImGui.beginDisabled(!serverStarted.get());
+                    ImGui.beginDisabled(!ArenaServer.serverStarted.get());
                     if (ImGui.button("Stop")) {
                         try {
                             ArenaServer.stop();
-                            serverStarted.set(false);
                         } catch (Exception e) {
                             ImGuiNotify.error(String.format("Failed to start server: %s", e.getMessage()));
                         }
                     }
                     ImGui.endDisabled();
-                    if (ImGui.checkbox("Auto-rotate host after each song", serverAutoRotate)) {
-                        serverAutoRotate.set(false);
+                    if (ImGui.checkbox("Auto-rotate host after each song", ArenaServer.getServerAutoRotate())) {
+                        ArenaServer.setServerAutoRotate(!ArenaServer.getServerAutoRotate());
                     }
                     ImGui.endTabItem();
                 }
